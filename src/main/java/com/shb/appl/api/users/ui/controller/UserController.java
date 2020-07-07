@@ -31,4 +31,5 @@ public class UserController {
     public String createUser(@Valid @RequestBody CreateUserRequestModel userDetails){
         return "Create user called";
     }
+
 }
