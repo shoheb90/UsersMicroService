@@ -9,4 +9,4 @@ Features included in the service
 5.  Delete User
 
 **Application layer architecture**
-![Image of architecture](https://github.com/shoheb90/UsersMicroService/src/main/resources/Application layers.png)
+![Image of architecture](https://github.com/shoheb90/Applicationlayers.png)
