@@ -8,5 +8,6 @@ Features included in the service
 4.  Update User
 5.  Delete User
 
-**Application layer architecture**
-![Image of architecture](https://github.com/shoheb90/Applicationlayers.png)
+**Application layer**
+
+![Image of architecture](https://github.com/shoheb90/UsersMicroService/blob/master/Applicationlayers.png)
