@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -24,21 +25,24 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     //Create constructor based dependency injection
     @Autowired
-    public UserServiceImpl(UserRepository userRepository){
+    public UserServiceImpl(UserRepository userRepository,BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
     public UserDto createUser(UserDto userDetails) {
         userDetails.setUserId(UUID.randomUUID().toString());
+        //Encrypt password
+        userDetails.setEncryptedPassword(bCryptPasswordEncoder.encode(userDetails.getPassword()));
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         //Map source object fields userDetails with Entity object fields to store data correctly in specific columns
         UserEntity userEntity = modelMapper.map(userDetails,UserEntity.class);
-        userEntity.setEncryptedPassword("test");  //Temporory added as its not available for now
 
         userRepository.save(userEntity);
 

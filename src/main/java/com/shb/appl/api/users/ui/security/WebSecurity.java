@@ -33,5 +33,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             Temporary permitted users service requests
          */
         http.authorizeRequests().antMatchers("/users/**").permitAll();
+
+        /*
+        Disable security for frame options so H2 database should be accesible
+         */
+        http.headers().frameOptions().disable();
     }
 }
