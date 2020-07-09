@@ -8,7 +8,9 @@ package com.shb.appl.api.users.ui.security;
    
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -17,6 +19,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+
+    Environment environment;
+    @Autowired
+    public WebSecurity(Environment environment){
+        this.environment = environment;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
@@ -32,8 +40,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         /*
             Temporary permitted users service requests
          */
-        http.authorizeRequests().antMatchers("/users/**").permitAll();
+        //http.authorizeRequests().antMatchers("/users/**
 
+        //Restricted service to be accesible from only provided gateway IP
+        http.authorizeRequests().antMatchers("/**").hasIpAddress(environment.getProperty("gateway.ip"));
         /*
         Disable security for frame options so H2 database should be accesible
          */
